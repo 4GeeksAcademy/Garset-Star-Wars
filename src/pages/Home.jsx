@@ -1,16 +1,133 @@
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useEffect, useState } from "react";
+import { fetchCharacters, fetchPlanets, fetchVehicles } from "../fetch/fetchApi.js";
 
 export const Home = () => {
+	const { store, dispatch } = useGlobalReducer()
+	const [error, setError] = useState(null);
 
-  const {store, dispatch} =useGlobalReducer()
+	console.log(store.character)
+
+	useEffect(() => {
+
+		fetchCharacters(dispatch);
+		fetchPlanets(dispatch);
+		fetchVehicles(dispatch);
+	}, []);
+
+	const extractIdFromUrl = (url) => {
+		const id = url.match(/\/(\d+)\/$/)?.[1];
+		return id || "1";
+	};
+
+	if (error) return <div className="text-center mt-5">Error: {error}</div>;
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
+		<div className="container mt-5">
+			<>
+				<h1 className="text-center mb-4">Star Wars Characters</h1>
+				{store.character.length == 0 ? <div className="text-center mt-5">Loading...</div> :
+					<div className="d-flex overflow-auto pb-3" style={{ gap: '1rem' }}>
+						{store.character.map((character) => {
+							const id = extractIdFromUrl(character.url);
+							const imageUrl = `https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/characters/${id}.jpg`;
+							return (
+								<div key={id} className="flex-shrink-0" style={{ width: '300px' }}>
+									 <div className="card h-100 shadow-sm" style={{ minHeight: '400px' }}>
+										<img
+											src={imageUrl}
+											className="card-img-top"
+											alt={character.name}
+											onError={(e) => {
+												e.target.src = "https://placehold.co/400x200?text=Imagen+no+disponible";
+											}}
+										/>
+										<div className="card-body">
+											<h5 className="card-title">{character.name}</h5>
+											<button
+												className="btn btn-primary btn-sm"
+												onClick={() => navigate(`/character/${id}`)}
+											>
+												Details
+											</button>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				}</>
+
+			<>
+				<h1 className="text-center mb-4">Star Wars Planets</h1>
+				{store.planet.length == 0 ? <div className="text-center mt-5">Loading...</div> :
+					<div className="d-flex overflow-auto pb-3" style={{ gap: '1rem' }}>
+						{store.planet.map((planet) => {
+							const id = extractIdFromUrl(planet.url);
+							const imageUrl = `https://raw.githubusercontent.com/tbone849/star-wars-guide/refs/heads/master/build/assets/img/planets/${id}.jpg`;
+							return (
+								<div key={id} className="flex-shrink-0" style={{ width: '300px' }}>
+									 <div className="card h-100 shadow-sm" style={{ minHeight: '400px' }}>
+										<img
+											src={imageUrl}
+											className="card-img-top"
+											alt={planet.name}
+											onError={(e) => {
+												e.target.src = "https://placehold.co/400x200?text=Imagen+no+disponible";
+											}}
+										/>
+										<div className="card-body">
+											<h5 className="card-title">{planet.name}</h5>
+											<button
+												className="btn btn-primary btn-sm"
+												onClick={() => navigate(`/planet/${id}`)}
+											>
+												Details
+											</button>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				}</>
+
+			<>
+				<h1 className="text-center mb-4">Star Wars Vehicles</h1>
+				{store.vehicle.length == 0 ? <div className="text-center mt-5">Loading...</div> :
+					<div className="d-flex overflow-auto pb-3" style={{ gap: '1rem' }}>
+						{store.vehicle.map((vehicle) => {
+							const id = extractIdFromUrl(vehicle.url);
+							const imageUrl = `https://raw.githubusercontent.com/tbone849/star-wars-guide/refs/heads/master/build/assets/img/starships/${id}.jpg`;
+							return (
+								<div key={id} className="flex-shrink-0" style={{ width: '300px' }}>
+									 <div className="card h-100 shadow-sm" style={{ minHeight: '400px' }}>
+										<img
+											src={imageUrl}
+											className="card-img-top"
+											alt={vehicle.name}
+											onError={(e) => {
+												e.target.src = "https://placehold.co/400x200?text=Imagen+no+disponible";
+											}}
+										/>
+										<div className="card-body">
+											<h5 className="card-title">{vehicle.name}</h5>
+											<button
+												className="btn btn-primary btn-sm"
+												onClick={() => navigate(`/vehicle/${id}`)}
+											>
+												Details
+											</button>
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				}</>
+
 		</div>
+
 	);
-}; 
+};
