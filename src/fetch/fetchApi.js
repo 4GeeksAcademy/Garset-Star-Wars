@@ -37,3 +37,5 @@ export const fetchVehicles = async (dispatch) => {
         setLoading(false);
     }
 };
+
+
