@@ -13,28 +13,45 @@ export const VehicleDetail = () => {
 
   if (!vehicle) return <div className="text-center">Loading...</div>;
 
+  const properties = vehicle.result?.properties;
+  const imageUrl = `https://raw.githubusercontent.com/tbone849/star-wars-guide/refs/heads/master/build/assets/img/starships/${id}.jpg`;
+
   return (
     <div className="container mt-4">
       <div className="card">
         <div className="card-header">
-          <h2>{vehicle.name}</h2>
+          <h2>{properties?.name}</h2>
         </div>
         <div className="card-body">
           <div className="row">
-            <div className="col-md-6">
-              <ul className="list-group">
-                <li className="list-group-item"><strong>Model:</strong> {vehicle.model}</li>
-                <li className="list-group-item"><strong>Manufacturer:</strong> {vehicle.manufacturer}</li>
-                <li className="list-group-item"><strong>Cost in Credits:</strong> {vehicle.cost_in_credits}</li>
-              </ul>
+            <div className="col-md-4 mb-3">
+              <img
+                src={imageUrl}
+                className="card-img-top img-fluid rounded"
+                alt={properties?.name}
+                onError={(e) => {
+                  e.target.src = "https://placehold.co/400x200?text=Imagen+no+disponible";
+                }}
+              />
             </div>
-            <div className="col-md-6">
-              <ul className="list-group">
-                <li className="list-group-item"><strong>Length:</strong> {vehicle.length} meters</li>
-                <li className="list-group-item"><strong>Max Speed:</strong> {vehicle.max_atmosphering_speed}</li>
-                <li className="list-group-item"><strong>Crew:</strong> {vehicle.crew}</li>
-                <li className="list-group-item"><strong>Passengers:</strong> {vehicle.passengers}</li>
-              </ul>
+            <div className="col-md-8">
+              <div className="row">
+                <div className="col-md-6">
+                  <ul className="list-group">
+                    <li className="list-group-item"><strong>Model:</strong> {properties?.model}</li>
+                    <li className="list-group-item"><strong>Manufacturer:</strong> {properties?.manufacturer}</li>
+                    <li className="list-group-item"><strong>Cost in Credits:</strong> {properties?.cost_in_credits}</li>
+                  </ul>
+                </div>
+                <div className="col-md-6">
+                  <ul className="list-group">
+                    <li className="list-group-item"><strong>Length:</strong> {properties?.length} meters</li>
+                    <li className="list-group-item"><strong>Max Speed:</strong> {properties?.max_atmosphering_speed}</li>
+                    <li className="list-group-item"><strong>Crew:</strong> {properties?.crew}</li>
+                    <li className="list-group-item"><strong>Passengers:</strong> {properties?.passengers}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
