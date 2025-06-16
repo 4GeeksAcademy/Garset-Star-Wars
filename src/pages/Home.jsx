@@ -52,19 +52,27 @@ export const Home = () => {
 											<div className="card-body">
 												<h5 className="card-title">{character.name}</h5>
 												<div className="d-flex align-items-center">
-												<button
-													className="btn btn-outline-warning btn-sm"
-													onClick={() => addFavorite({ id, name: character.name, type: 'character' })}
-												>
-													⚔️ Add
-												</button>
-												<div className="mx-5"></div>
-												<button
-													className="btn btn-warning btn-sm"
-													onClick={() => navigate(`/characters/${id}`)}
-												>
-													Details
-												</button>
+													<button
+														className="btn btn-outline-warning btn-sm"
+														onClick={() => dispatch({
+															type: 'ADD_FAVORITE',
+															payload: {
+																id,
+																name: character.name,
+																type: 'character',
+																image: imageUrl
+															}
+														})}
+													>
+														⚔️ Add
+													</button>
+													<div className="mx-5"></div>
+													<button
+														className="btn btn-warning btn-sm"
+														onClick={() => navigate(`/characters/${id}`)}
+													>
+														Details
+													</button>
 												</div>
 											</div>
 										</div>
@@ -98,7 +106,15 @@ export const Home = () => {
 												<div className="d-flex align-items-center">
 													<button
 														className="btn btn-outline-warning btn-sm"
-														onClick={() => addFavorite({ id, name: planet.name, type: 'planet' })}
+														onClick={() => dispatch({
+															type: 'ADD_FAVORITE',
+															payload: {
+																id,
+																name: planet.name,
+																type: 'planet',
+																image: imageUrl
+															}
+														})}
 													>
 														🪐 Add
 													</button>
@@ -141,7 +157,15 @@ export const Home = () => {
 												<div className="d-flex align-items-center">
 													<button
 														className="btn btn-outline-warning btn-sm"
-														onClick={() => addFavorite({ id, name: vehicle.name, type: 'vehicle' })}
+														onClick={() => dispatch({
+															type: 'ADD_FAVORITE',
+															payload: {
+																id,
+																name: vehicle.name,
+																type: 'vehicle',
+																image: imageUrl
+															}
+														})}
 													>
 														🚀 Add
 													</button>
